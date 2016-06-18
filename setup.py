@@ -1,14 +1,14 @@
 #!/usr/bin/env python3
 # -*- coding: utf-8 -*-
 
-from setuptools import setup, find_packages
+from setuptools import setup
 
 setup(
     name='anymarkup',
-    version='0.4.3',
+    version='0.7.0',
     description='Parse/serialize any markup format',
     long_description=''.join(open('README.rst').readlines()),
-    keywords='xml, yaml, json, ini',
+    keywords='xml, yaml, toml, json, json5, ini',
     author='Slavek Kabrda',
     author_email='slavek.kabrda@gmail.com',
     url='https://github.com/bkabrda/anymarkup',
@@ -24,5 +24,6 @@ setup(
         'Programming Language :: Python :: 2.7',
         'Programming Language :: Python :: 3.3',
         'Programming Language :: Python :: 3.4',
+        'Programming Language :: Python :: 3.5',
         ]
 )

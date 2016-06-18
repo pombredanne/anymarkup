@@ -13,7 +13,7 @@ anymarkup
    :target: https://coveralls.io/r/bkabrda/anymarkup?branch=master
    :alt: Coverage
 
-Parse or serialize any markup. Currently supports ini, json, xml and yaml.
+Parse or serialize any markup. Currently supports ini, json, json5, toml, xml and yaml.
 Report bugs and new functionality requests at https://github.com/bkabrda/anymarkup/issues.
 
 Parsing::
@@ -47,6 +47,24 @@ from https://pypi.python.org/pypi/anymarkup or install them via ``pip install an
 
 ``anymarkup`` works with Python 2.7 and >= 3.3.
 
+Automatic Markup Language Recognition
+-------------------------------------
+
+When using ``anymarkup.parse(input)``, anymarkup will try to guess markup language of input.
+This usually works fine except:
+
+* ini vs toml: These two look almost the same and in fact have common subset (which,
+  however, yields different parsing result). Because of this, anything with an ini-like
+  look will be parsed with ini parser. If you want an input string to be parsed as toml,
+  you have to explicitly specify that using ``format=toml`` (see below for examples).
+* json vs json5: json5 is superset of json, but not very widely used. Because of practicality
+  of json usage, everything that looks like json is parsed as json. If you want input string
+  to be parsed as json5, you have to explicitly specify that using ``format=json5``.
+
+When using ``anymarkup.parse_file(path)``, anymarkup will try to guess format based on file
+extension and then fallback to guessing as explained above. This means that if the file has
+``.toml`` pr ``.json5`` extension, you don't have to provide ``format=<format>`` explicitly.
+
 Notes on Parsing Basic Types
 ----------------------------
 
@@ -70,6 +88,7 @@ Backends
 
 - https://pypi.python.org/pypi/configobj/ for ``ini`` parsing
 - https://docs.python.org/library/json.html for ``json`` parsing
+- https://pypi.python.org/pypi/toml/ for ``toml`` parsing
 - https://pypi.python.org/pypi/xmltodict for ``xml`` parsing
 - https://pypi.python.org/pypi/PyYAML for ``yaml`` parsing
 
@@ -85,6 +104,24 @@ and then parse again, you'll lose the ordering information (meaning you'll get j
 This is because JSON and INI parsers (to my knowledge) don't consider
 ordering key-value structures important and there's no direct means in these
 markup languages to express ordering key-value structures.
+
+
+Notes on Dependencies
+---------------------
+
+Read this section if you want anymarkup functionality only for subset of supported
+markup languages without the need to install all parsers.
+
+Since version 0.5.0, anymarkup is just a wrapper library around anymarkup-core
+(https://github.com/bkabrda/anymarkup-core) and doesn't actually contain any code,
+except of imports from anymarkup-core.
+
+anymarkup-core goal is to not explicitly depend on any of the parsers, so people
+can install it with only a specified subset of dependencies. For example, you can
+install anymarkup-core only with PyYAML, if you know you'll only be parsing YAML.
+
+If you install anymarkup, you will always get a full set of dependencies
+and you will be able to parse any markup language that's supported.
 
 
 Examples
